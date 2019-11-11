@@ -5,8 +5,8 @@
 
 
 function SLIC
-A = imread('DSC07449_geotag.JPG');
-[L,N] = superpixels(A,1024);
+A = imread('VC_P1_1.JPG');
+[L,N] = superpixels(A,2048);
 figure
 BW = boundarymask(L);
 
