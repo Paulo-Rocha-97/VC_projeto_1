@@ -1,20 +1,60 @@
 %% Script to test diferent function for toolbox
 
+close all
 
 A = imread('VC_P1_1.JPG');
 
-number_spixel = 5000; % number of superpixel comand
+B = histeq(A);
 
-Sigma=2;
+C = rgb2gray(B);
 
-B = imgaussfilt(A,Sigma);
+D = edge(C,'canny');
 
-[C] = SLIC(number_spixel,B);
+D = uint8(255*D);
 
-level = 0.53; % Treeshold of BW
+D = cat(3,D,D,D);
 
-outputImage = im2bw(C,level);
+number_spixel = 100000; % number of superpixel comand
 
-imshow(outputImage,'InitialMagnification',13)
+[E] = SLIC(number_spixel,D);
+
+E = histeq(E);
+
+%number_spixel = 5000; % number of superpixel comand
+
+% [C] = SLIC(number_spixel,B);
+% 
+% level = 0.80; 
+% 
+% D = im2bw(C,level);
+% 
+% s_open = strel('disk',40);
+% 
+% s_close = strel('disk',90);
+% 
+% s_dil=strel('disk',2);
+% 
+% E = imopen(E,s_open);
+% 
+% F = imclose(E,s_close);
+% 
+% F = imdilate(F,s_dil);
+
+figure
+subplot(2,3,1)
+imshow(A)
+subplot(2,3,2)
+imshow(B)
+subplot(2,3,3)
+imshow(C)
+subplot(2,3,4)
+imshow(D)
+subplot(2,3,5)
+imshow(E)
+subplot(2,3,6)
+imshow(F)
+
+
+
 
 
