@@ -1,4 +1,4 @@
-A = imread('VC_P1_5.JPG');
+A = imread('VC_P1_7.JPG');
 
 A = histeq(A);
 
