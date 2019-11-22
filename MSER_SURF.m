@@ -1,4 +1,4 @@
-%function features = MSER_SURF
+function features = MSER_SURF_
 % Image Selection
 local = cd;
 D=strcat(local,'\Images');
@@ -16,22 +16,22 @@ for i = 3:size(S)
     J = adapthisteq(J);
     
     % Obtain MSER Regions with parameters optimized
+    
     [points_mser,mser_cc] = detectMSERFeatures(J,'ThresholdDelta',2);
 
     stats=regionprops('table',mser_cc,'Eccentricity', 'Area');
-    AreaIdx = stats.Area >200;
+    AreaIdx = stats.Area >200 & stats.Area<1500;
     EccentricityIdx = stats.Eccentricity >0.35 & stats.Eccentricity < 0.80;
     circularRegions = points_mser(EccentricityIdx & AreaIdx);
-    %figure(9); imshow(J);
-    %hold on
-    %plot(circularRegions,'showEllipses',true)
+%     figure(8); imshow(J);
+%     hold on
+%     plot(circularRegions,'showEllipses',true)
 
-    %[features, validpts] = extractFeatures(J,points_mser);
+    
     [features, validpts] = extractFeatures(J,circularRegions);
     figure(i)
     imshow(J); hold on
     plot(validpts,'showOrientation',true)
-
     title('mser')
     hold off
     
@@ -46,10 +46,10 @@ for i = 3:size(S)
     showMatchedFeatures(J,G,matchedPoints1,matchedPoints2);
     legend('matched points 1','matched points 2');
     
-
+    
 end
 
 
 
 
-%end
+end
