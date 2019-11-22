@@ -1,4 +1,6 @@
-A = imread('VC_P1_5.JPG');
+function [B,C,D,Final] = Water_Segmentation (A)
+
+Final=A;
 
 A = histeq(A);
 
@@ -6,45 +8,59 @@ A = SLIC(45000,A);
 
 A = rgb2hsv(A);
 
-A = imresize(A,0.15);
-
 H_A = A(:,:,1);
 S_A = A(:,:,2);
 V_A = A(:,:,3);
 
 [comp_m,larg_m] = size(H_A);
 
-Agua = zeros(comp_m,larg_m);
+B = zeros(comp_m,larg_m);
 
 for i = 1:comp_m
     for j = 1:larg_m
         if H_A(i,j) >= (1/2) - (1/6) && H_A(i,j) <= (1/2) + (1/6)
-            Agua(i,j) = 1;
+            B(i,j) = 1;
         else
-            Agua(i,j) = 0;
+            B(i,j) = 0;
         end
     end
 end
 
 for p = 1:comp_m
     for k = 1:larg_m
-        if  V_A(p,k) <= 0.70 && Agua(p,k) == 1
-            Agua(p,k) = 1;
+        if  V_A(p,k) <= 0.70 && B(p,k) == 1
+            B(p,k) = 1;
         else
-            Agua(p,k) = 0;
+            B(p,k) = 0;
         end
     end
 end
 
    
-strwateropen = 600;
+strwateropen = 800;
 strwaterclose = strel('octagon',12);
-% 
-Agua_Open = bwareaopen(Agua,strwateropen);
-Agua_Close = imclose(Agua_Open, strwaterclose);
-% 
-figure(1)
-imshow(Agua)
-% 
-figure(2)
-imshow(Agua_Close)
+strdilate = strel('disk',20);
+
+C = bwareaopen(B,strwateropen);
+D = imclose(C, strwaterclose);
+D = imdilate(D,strdilate); 
+
+[l,c] = size(D);
+
+for i = 1 : l
+   for j = 1 : c
+   
+       if D(i,j)==1 
+          
+           Final(i,j,1)=uint8(176);
+           Final(i,j,2)=uint8(240);
+           Final(i,j,3)=uint8(230);
+           
+       end
+       
+   end
+end
+
+
+end
+

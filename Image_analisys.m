@@ -1,7 +1,7 @@
 % This scripts aims to simply plot and compare
 %   -  images histograms 
 
-close all
+close al
 
 local = cd;
 D=strcat(local,'\Images');
@@ -49,6 +49,8 @@ end
 
 suptitle('Histogramas Grayscale')
 
+figure
+
 for i=1:9
     
     A=strcat('Imagem- ',num2str(i));
@@ -60,6 +62,8 @@ end
 
 suptitle('Histogramas Red')
 
+figure
+
 for i=1:9
     
     A=strcat('Imagem- ',num2str(i));
@@ -70,6 +74,8 @@ for i=1:9
 end
 
 suptitle('Histogramas Green')
+
+figure
 
 for i=1:9
     
