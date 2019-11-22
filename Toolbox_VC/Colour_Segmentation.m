@@ -1,6 +1,6 @@
-function [Verde] = Colour_Segmentation
+function [Verde,H_A,S_A,V_A] = Colour_Segmentation
 
-A = imread('VC_P1_7.JPG');
+A = imread('VC_P1_5.JPG');
 
 A = histeq(A);
 
@@ -53,10 +53,7 @@ title('Verde')
 subplot(1,3,3)
 imshow(Amarelo)
 title('Amarelo')
-            
-stropen = strel('disk',1);
-strclose = strel('disk',5);
-strdilate = strel('disk',3);
+           
 
 for i = 1:comp_m
     for j = 1:larg_m
@@ -67,22 +64,5 @@ for i = 1:comp_m
         end
     end
 end
-figure(3)
-imshow(Arvores)
-% Segmentação da zona verde
+end
 
-Arvores_Open = bwareaopen(Arvores,8);
-figure(4)
-imshow(Arvores_Open)
-
-Arvores_Close = imclose(Arvores_Open,strclose);
-figure(5)
-imshow(Arvores_Close)
-
-Arvores_Final = imdilate(Arvores_Close,strdilate);
-figure(6)
-imshow(Arvores_Final)
-% 
-% Verde_final = bwareaopen(Verde_Close,100);
-% figure(5)
-% imshow(Verde_final)
