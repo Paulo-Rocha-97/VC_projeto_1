@@ -25,7 +25,7 @@ end
 
  for k = 1:comp_m
      for l = 1:larg_m
-         if H_A(k,l) >= (1/6) - 0.15 && S_A(k,l) <= (1/6) + 0.10 && B(k,l)==1
+         if H_A(k,l) >= 0.15 - 0.5 && S_A(k,l) <= 0.2 && B(k,l)==1
              B(k,l) = 1;
          else
              B(k,l) = 0;
@@ -47,17 +47,18 @@ end
 
 strareiaclose = strel('octagon',12);
 strareiaopen = strel('disk',3);
+strareiadilate = strel('disk',3);
   
 C = imopen(B,strareiaopen);
 D = imclose(C,strareiaclose);
 E = bwareaopen(D,500);
-
-[l,c] = size(E);
+F = imdilate(E,strareiadilate);
+[l,c] = size(F);
 
 for i = 1 : l
    for j = 1 : c
    
-       if E(i,j)==1 
+       if F(i,j)==1 
           
            Final(i,j,1)=uint8(240);
            Final(i,j,2)=uint8(230);

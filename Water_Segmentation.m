@@ -18,7 +18,7 @@ B = zeros(comp_m,larg_m);
 
 for i = 1:comp_m
     for j = 1:larg_m
-        if H_A(i,j) >= (1/2) - (1/6) && H_A(i,j) <= (1/2) + (1/6)
+        if H_A(i,j) >= (1/2) - 0.2 && H_A(i,j) <= (1/2) + 0.15
             B(i,j) = 1;
         else
             B(i,j) = 0;
@@ -28,7 +28,7 @@ end
 
 for p = 1:comp_m
     for k = 1:larg_m
-        if  V_A(p,k) <= 0.70 && B(p,k) == 1
+        if  V_A(p,k) <= 0.70 && S_A(p,k) >= 0.05 && B(p,k) == 1
             B(p,k) = 1;
         else
             B(p,k) = 0;
@@ -36,12 +36,13 @@ for p = 1:comp_m
     end
 end
 
-   
-strwateropen = 800;
-strwaterclose = strel('octagon',12);
-strdilate = strel('disk',20);
+strwateropen1 = strel('disk',2);   
+strwateropen2 = 1200;
+strwaterclose = strel('octagon',9);
+strdilate = strel('disk',15);
 
-C = bwareaopen(B,strwateropen);
+C = imopen(B,strwateropen1);
+C = bwareaopen(B,strwateropen2);
 D = imclose(C, strwaterclose);
 D = imdilate(D,strdilate); 
 
