@@ -2,7 +2,7 @@ function [A,B,C] = Road_detection(threshlod_hist)
 
 close all
 
-A = imread('VC_P1_7.JPG');
+A = imread('VC_P1_6.JPG');
 
 A = imresize(A,0.15);
 
@@ -79,28 +79,33 @@ lines = houghlines(C,T,R,peaks);
 
 %% Plot results
 
+% figure
+% 
+% imshow(C)
+% hold on
+% max_len = 0;
+% 
+% for k = 1:length(lines)
+%     
+%    xy = [lines(k).point1; lines(k).point2];
+%    plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+% 
+%    % Plot beginnings and ends of lines
+%    plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+%    plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+% 
+%    % Determine the endpoints of the longest line segment
+%    len = norm(lines(k).point1 - lines(k).point2);
+%    if ( len > max_len)
+%       max_len = len;
+%       xy_long = xy;
+%    end
+%    
+% end
+
 figure
-
+imshow(A)
+figure
 imshow(C)
-hold on
-max_len = 0;
-
-for k = 1:length(lines)
-    
-   xy = [lines(k).point1; lines(k).point2];
-   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
-
-   % Plot beginnings and ends of lines
-   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
-   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
-
-   % Determine the endpoints of the longest line segment
-   len = norm(lines(k).point1 - lines(k).point2);
-   if ( len > max_len)
-      max_len = len;
-      xy_long = xy;
-   end
-   
-end
 
 end

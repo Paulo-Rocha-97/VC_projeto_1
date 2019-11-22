@@ -1,12 +1,9 @@
-function [Verde,H_A,S_A,V_A] = Colour_Segmentation
-
-A = imread('VC_P1_5.JPG');
+function [Verde,H_A,S_A,V_A] = Colour_Segmentation (A)
 
 A = histeq(A);
 
 A = rgb2hsv(A);
 
-A = imresize(A,0.15);
 
 H_A = A(:,:,1);
 S_A = A(:,:,2);
@@ -43,26 +40,16 @@ for i = 1:comp_m
 end
 
 
-figure(1)
-subplot(1,3,1)
-imshow(Azul)
-title('Azul')
-subplot(1,3,2)
-imshow(Verde)
-title('Verde')
-subplot(1,3,3)
-imshow(Amarelo)
-title('Amarelo')
+% figure(1)
+% subplot(1,3,1)
+% imshow(Azul)
+% title('Azul')
+% subplot(1,3,2)
+% imshow(Verde)
+% title('Verde')
+% subplot(1,3,3)
+% imshow(Amarelo)
+% title('Amarelo')
            
-
-for i = 1:comp_m
-    for j = 1:larg_m
-        if V_A(i,j) >= 0.35 && S_A(i,j) >= 0.25 && Verde(i,j) == 1
-            Arvores(i,j) = 1;
-        else
-            Arvores(i,j) = 0;
-        end
-    end
-end
 end
 

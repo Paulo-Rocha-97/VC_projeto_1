@@ -238,6 +238,8 @@ if cont==1
     set(handles.Road_detection,'Visible','on')
     set(handles.Tree_identification,'Visible','on')
     set(handles.Back,'Visible','on')
+    set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
     
 elseif cont==0
     set(handles.file_select_text,'String','(Not a valid name)')
@@ -265,6 +267,8 @@ set(handles.Done,'Visible','off')
 set(handles.More_water,'Visible','off')
 set(handles.More_road,'Visible','off')
 set(handles.More_tree,'Visible','off')
+set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
 
 load('original_image.mat')
 
@@ -314,6 +318,8 @@ set(handles.Done,'Visible','off')
 set(handles.More_sand,'Visible','off')
 set(handles.More_water,'Visible','off')
 set(handles.More_tree,'Visible','off')
+set(handles.n,'Visible','off')
+set(handles.Conter,'Visible','off')
 
 
 load('original_image.mat')
@@ -341,13 +347,22 @@ set(handles.Done,'Visible','off')
 set(handles.More_sand,'Visible','off')
 set(handles.More_water,'Visible','off')
 set(handles.More_road,'Visible','off')
+set(handles.n,'Visible','on')
+set(handles.Conter,'Visible','on')
 
 
 load('original_image.mat')
 
 A=OG;
 
+[~,~,~,~,~,Final,Contador] = Tree_Segmentation(A);
 
+value=num2str(Contador);
+
+set(handles.Conter,'String',value);
+
+set(handles.image_display,'Units','pixels');
+imshow(Final,'Parent', handles.image_display);
 
 set(handles.More_tree,'Visible','on')
 set(handles.Done,'Visible','on')
@@ -382,6 +397,9 @@ function Back_Callback(hObject, eventdata, handles)
     set(handles.More_water,'Visible','off')
     set(handles.More_road,'Visible','off')
     set(handles.More_tree,'Visible','off')
+    set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
+    set(handles.Conter,'String','--')
     
 
 
@@ -422,6 +440,8 @@ function More_water_Callback(hObject, eventdata, handles)
 
 set(handles.Done,'Visible','off')
 set(handles.Warning,'Visible','off')
+set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
 
 load('original_image.mat')
 
@@ -451,7 +471,8 @@ function More_road_Callback(hObject, eventdata, handles)
 
 set(handles.Done,'Visible','off')
 set(handles.Warning,'Visible','off')
-
+set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
 
 load('original_image.mat')
 
