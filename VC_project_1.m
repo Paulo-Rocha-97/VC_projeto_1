@@ -194,7 +194,6 @@ if cont==1
     name = fullfile(D,S(number).name);
         
     A = imread(name);
-    image_display = findobj(0,'tag','image_display');
     set(handles.image_display,'Units','pixels');
     imshow(A,'Parent', handles.image_display);
     
@@ -473,7 +472,7 @@ title('Gradiente Direction')
 subplot(2,4,6)
 imshow(E)
 title('Gradiente Direction Selection')
-subplot(2,4,[3 7])
+subplot(2,4,[3 7 ])
 imshow(F)
 title('Combined approach')
 subplot(2,4,4)
