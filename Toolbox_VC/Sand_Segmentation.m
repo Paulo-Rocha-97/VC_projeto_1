@@ -1,6 +1,4 @@
-A = imread('VC_P1_6.JPG');
-
-A = histeq(A);
+A = imread('VC_P1_5.JPG');
 
 A = SLIC(45000,A);
 
@@ -17,7 +15,7 @@ V_A = A(:,:,3);
 Areia = zeros(comp_m,larg_m);
 for i = 1:comp_m
     for j = 1:larg_m
-        if V_A(i,j) >= 0.95 - 0.10 & V_A(i,j) <= 0.95 + 0.10
+        if V_A(i,j) >= 0.6 - 0.15 && V_A(i,j) <= 0.6 + 0.10
             Areia(i,j) = 1;
         else
             Areia(i,j) = 0;
@@ -37,7 +35,7 @@ end
  
  for j = 1:comp_m
      for t = 1:larg_m
-         if S_A(j,t) <= 0.10 && Areia(j,t) == 1
+         if S_A(j,t) <= 0.25 && Areia(j,t) == 1
              Areia(j,t) = 1;
          else
              Areia(j,t) = 0;
@@ -50,11 +48,11 @@ end
 %Segmentação da areia
 
 strareiaclose = strel('octagon',12);
-strareiaopen = strel('disk',2);
+strareiaopen = strel('disk',5);
   
 Areia_Open = imopen(Areia,strareiaopen);
 Areia_Close = imclose(Areia_Open,strareiaclose);
-Areia_Final = bwareaopen(Areia_Close,200);
+Areia_Final = bwareaopen(Areia_Close,250);
 % 
 figure(6)
 imshow(Areia_Final)

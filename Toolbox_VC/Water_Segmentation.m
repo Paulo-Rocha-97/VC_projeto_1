@@ -1,5 +1,6 @@
-A = imread('VC_P1_5.JPG');
+A = imread('VC_P1_2.JPG');
 
+A = imresize(A,0.15);
 A = histeq(A);
 
 A = SLIC(45000,A);
