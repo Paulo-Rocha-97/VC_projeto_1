@@ -1,8 +1,10 @@
-function [counts,binLocations] = Road_detection 
+function [A,B,C] = Road_detection(threshlod_hist)
 
-A = imread('VC_P1_7.JPG');
+close all
 
-A = imresize(A,0.2);
+A = imread('VC_P1_6.JPG');
+
+A = imresize(A,0.15);
 
 B=rgb2gray(A);
 
@@ -25,13 +27,11 @@ n=32;
 
 [counts,binLocations] = imhist(B,n);
 
-threshlod_hist=70;
-
 sum_pixels = counts(1)/Total_pixels*100;
 
 bin_max=0;
 
-i=2;
+i=1;
 
 while bin_max ==0
     
@@ -60,23 +60,52 @@ for L = 1:L_end
     end
 end
 
-s_open = strel('disk',4);
+s_open = strel('disk',3);
 
-s_close = strel('disk',7);
+s_close = strel('disk',8);
 
 C = imopen(C,s_open);
 
 C = imclose(C,s_close);
 
-[accum, axis_rho, axis_theta, lineseg, dbg_label] = Hough_Grd(C,1,0.0000000000000000000000005);
+%% Hough transform 
+
+[H,T,R] = hough(C);
+
+peaks = houghpeaks(H,50);
+
+lines = houghlines(C,T,R,peaks);
+
+
+%% Plot results
 
 % figure
-% subplot(2,3,1)
-% imshow(A)
-% subplot(2,3,2)
-% imshow(B)
-% subplot(2,3,3)
+% 
+% imshow(C)
+% hold on
+% max_len = 0;
+% 
+% for k = 1:length(lines)
+%     
+%    xy = [lines(k).point1; lines(k).point2];
+%    plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+% 
+%    % Plot beginnings and ends of lines
+%    plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+%    plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+% 
+%    % Determine the endpoints of the longest line segment
+%    len = norm(lines(k).point1 - lines(k).point2);
+%    if ( len > max_len)
+%       max_len = len;
+%       xy_long = xy;
+%    end
+%    
+% end
+
+figure
+imshow(A)
+figure
 imshow(C)
-DrawLines_2Ends(dbg_label)
 
 end

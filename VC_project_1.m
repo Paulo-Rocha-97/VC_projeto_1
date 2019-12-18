@@ -92,6 +92,7 @@ for i = 4:size(S)
 end  
 
 mystring = sprintf(mystring);
+
 set(handles.List_of_images, 'String', mystring);
 
 
@@ -108,8 +109,6 @@ function file_select_text_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of file_select_text as text
-%        str2double(get(hObject,'String')) returns contents of file_select_text as a double
 
 
 % --- Executes during object creation, after setting all properties.
@@ -134,7 +133,8 @@ function Preview_Callback(hObject, eventdata, handles)
 local = cd;
 D=strcat(local,'\Images');
 S = dir(fullfile(D));
- 
+
+
 file = get(handles.file_select_text,'String');
 
 cont=0;
@@ -153,6 +153,7 @@ if cont==1
     name = fullfile(D,S(number).name);
         
     A = imread(name);
+    
     set(handles.image_display,'Units','pixels');
     imshow(A,'Parent', handles.image_display);
 
@@ -166,7 +167,9 @@ function next_stage_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+
 set(handles.Done,'Visible','off')
+set(handles.Warning,'Visible','on')
 
 local = cd;
 D=strcat(local,'\Images');
@@ -221,7 +224,6 @@ if cont==1
     save('original_image.mat', 'OG' )
     
     % Hide and display buttons
-    
     set(handles.Get_filenames,'Visible','off')
     set(handles.List_of_images,'Visible','off')
     set(handles.next_stage,'Visible','off')
@@ -236,6 +238,8 @@ if cont==1
     set(handles.Road_detection,'Visible','on')
     set(handles.Tree_identification,'Visible','on')
     set(handles.Back,'Visible','on')
+    set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
     
 elseif cont==0
     set(handles.file_select_text,'String','(Not a valid name)')
@@ -263,6 +267,8 @@ set(handles.Done,'Visible','off')
 set(handles.More_water,'Visible','off')
 set(handles.More_road,'Visible','off')
 set(handles.More_tree,'Visible','off')
+set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
 
 load('original_image.mat')
 
@@ -306,11 +312,15 @@ function Road_detection_Callback(hObject, eventdata, handles)
 % hObject    handle to Road_detection (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
 close all
 set(handles.Done,'Visible','off')
 set(handles.More_sand,'Visible','off')
 set(handles.More_water,'Visible','off')
 set(handles.More_tree,'Visible','off')
+set(handles.n,'Visible','off')
+set(handles.Conter,'Visible','off')
+
 
 load('original_image.mat')
 
@@ -326,6 +336,7 @@ set(handles.More_road,'Visible','on')
 set(handles.Done,'Visible','on')
 
 
+
 % --- Executes on button press in Tree_identification.
 function Tree_identification_Callback(hObject, eventdata, handles)
 % hObject    handle to Tree_identification (see GCBO)
@@ -336,12 +347,22 @@ set(handles.Done,'Visible','off')
 set(handles.More_sand,'Visible','off')
 set(handles.More_water,'Visible','off')
 set(handles.More_road,'Visible','off')
+set(handles.n,'Visible','on')
+set(handles.Conter,'Visible','on')
+
 
 load('original_image.mat')
 
 A=OG;
 
+[~,~,~,~,~,Final,Contador] = Tree_Segmentation(A);
 
+value=num2str(Contador);
+
+set(handles.Conter,'String',value);
+
+set(handles.image_display,'Units','pixels');
+imshow(Final,'Parent', handles.image_display);
 
 set(handles.More_tree,'Visible','on')
 set(handles.Done,'Visible','on')
@@ -359,6 +380,8 @@ function Back_Callback(hObject, eventdata, handles)
     set(handles.next_stage,'Visible','on')
     set(handles.Preview,'Visible','on')
     set(handles.file_select_text,'Visible','on')
+    set(handles.Warning,'Visible','off')
+
     
     set(handles.Area_Segmentation,'Visible','off')
     set(handles.Sand_detection,'Visible','off')
@@ -374,6 +397,9 @@ function Back_Callback(hObject, eventdata, handles)
     set(handles.More_water,'Visible','off')
     set(handles.More_road,'Visible','off')
     set(handles.More_tree,'Visible','off')
+    set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
+    set(handles.Conter,'String','--')
     
 
 
@@ -413,6 +439,9 @@ function More_water_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 set(handles.Done,'Visible','off')
+set(handles.Warning,'Visible','off')
+set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
 
 load('original_image.mat')
 
@@ -441,6 +470,9 @@ function More_road_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 set(handles.Done,'Visible','off')
+set(handles.Warning,'Visible','off')
+set(handles.n,'Visible','off')
+    set(handles.Conter,'Visible','off')
 
 load('original_image.mat')
 
@@ -461,7 +493,7 @@ title('Gradiente Direction')
 subplot(2,4,6)
 imshow(E)
 title('Gradiente Direction Selection')
-subplot(2,4,[3 7])
+subplot(2,4,[3 7 ])
 imshow(F)
 title('Combined approach')
 subplot(2,4,4)
